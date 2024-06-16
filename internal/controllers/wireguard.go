@@ -199,6 +199,10 @@ func (wg *WireGuard) Enable() error {
 }
 
 func (wg *WireGuard) Prepare() error {
+	if err := exec.Command("bash", "-c", "echo \"net.ipv4.ip_forward=1\" >> /etc/sysctl.conf && sysctl -p").Run(); err != nil {
+		return err
+	}
+
 	if err := exec.Command("bash", "-c", "apt install -y wireguard").Run(); err != nil {
 		return err
 	}
