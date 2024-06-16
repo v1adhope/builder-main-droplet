@@ -189,3 +189,19 @@ func (wg *WireGuard) parseConfigs() error {
 
 	return nil
 }
+
+func (wg *WireGuard) Enable() error {
+	if err := exec.Command("bash", "-c", "systemctl enable wg-quick@srv").Run(); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (wg *WireGuard) Prepare() error {
+	if err := exec.Command("bash", "-c", "apt install -y wireguard").Run(); err != nil {
+		return err
+	}
+
+	return nil
+}

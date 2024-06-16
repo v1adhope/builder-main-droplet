@@ -50,6 +50,7 @@ func Run() error {
 	CheckErr(err)
 
 	unbound := controllers.NewUnbound(controllers.DefaultUnboundDstConfPath)
+	CheckErr((unbound.Prepare()))
 	CheckErr(unbound.SetUp())
 	log.Println("unbound was setup")
 
@@ -57,7 +58,9 @@ func Run() error {
 	CheckErr(err)
 
 	wireguard := controllers.NewWireGuard(endpoint, controllers.DefaultWireGuardAssetsDstDirPath, kpc)
+	CheckErr((wireguard.Prepare()))
 	CheckErr((wireguard.SetUp()))
+	CheckErr((wireguard.Enable()))
 	log.Println("wireguard was setup")
 
 	return nil

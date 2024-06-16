@@ -3,6 +3,7 @@ package controllers
 import (
 	"io"
 	"os"
+	"os/exec"
 	"path/filepath"
 )
 
@@ -32,6 +33,14 @@ func (u *Unbound) SetUp() error {
 	defer dstConf.Close()
 
 	if _, err := io.Copy(dstConf, srcConf); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (u *Unbound) Prepare() error {
+	if err := exec.Command("bash", "-c", "apt install -y unbound").Run(); err != nil {
 		return err
 	}
 
