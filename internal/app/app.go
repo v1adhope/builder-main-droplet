@@ -57,11 +57,17 @@ func Run() error {
 	endpoint, err := endpoint()
 	CheckErr(err)
 
-	wireguard := controllers.NewWireGuard(endpoint, controllers.DefaultWireGuardAssetsDstDirPath, kpc)
-	CheckErr((wireguard.Prepare()))
-	CheckErr((wireguard.SetUp()))
-	CheckErr((wireguard.Enable()))
-	log.Println("wireguard was setup")
+	wireGuard := controllers.NewWireGuard(endpoint, controllers.DefaultWireGuardAssetsDstDirPath, kpc)
+	CheckErr((wireGuard.Prepare()))
+	CheckErr((wireGuard.SetUp()))
+	CheckErr((wireGuard.Enable()))
+	log.Println("wireGuard was setup")
+
+	adGuardHome := controllers.NewAdGuardHome(controllers.DefaultAdGuardHomeDstConfPath)
+	CheckErr(adGuardHome.Prepare())
+	CheckErr(adGuardHome.SetUp())
+	CheckErr(adGuardHome.Enable())
+	log.Println("adGuardHome was setup")
 
 	return nil
 }
